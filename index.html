@@ -18,117 +18,245 @@
   --accent:#d7ff43;
   --danger:#ff7777;
 }
-*{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Arial,sans-serif
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
 }
-button,input,select{font:inherit}
-.container{max-width:1250px;margin:auto;padding:25px 20px 60px}
-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:15px 0 25px;border-bottom:1px solid var(--line)
+button,input,select { font:inherit; }
+.container {
+  max-width:1250px;
+  margin:auto;
+  padding:25px 20px 60px;
 }
-.logo{font-size:27px;font-weight:900;letter-spacing:-1px}
-.logo span{color:var(--accent)}
-.tag{color:var(--muted);font-size:11px}
-.hero{padding:45px 0 30px;max-width:750px}
-.eyebrow{color:var(--accent);font-size:12px;font-weight:bold;letter-spacing:2px}
-h1{font-size:clamp(36px,6vw,58px);line-height:1.05;margin:15px 0}
-.hero p,.description{color:var(--muted);line-height:1.6}
-.notice{
-  background:#242c20;border:1px solid #52612c;padding:15px;
-  border-radius:12px;margin-bottom:25px;font-size:13px;line-height:1.5
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 0 25px;
+  border-bottom:1px solid var(--line);
 }
-.notice strong{color:var(--accent)}
-.layout{display:grid;grid-template-columns:1.7fr .8fr;gap:20px;align-items:start}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
-h2{margin-top:0}
-.description{font-size:13px;margin-bottom:20px}
-.fields{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-label{display:block;color:var(--muted);font-size:11px;margin-bottom:7px}
-input,select{
-  width:100%;padding:11px;background:#111713;color:white;
-  border:1px solid var(--line);border-radius:8px;min-width:0
+.logo {
+  font-size:27px;
+  font-weight:900;
+  letter-spacing:-1px;
 }
-input:focus,select:focus{outline:1px solid var(--accent);border-color:var(--accent)}
-.section-title{
-  display:flex;justify-content:space-between;align-items:center;
-  margin:30px 0 12px;gap:10px
+.logo span { color:var(--accent); }
+.tag { color:var(--muted);font-size:11px; }
+.hero { padding:45px 0 30px;max-width:750px; }
+.eyebrow {
+  color:var(--accent);
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:2px;
 }
-.section-title h3{margin:0}
-.cost-list{display:grid;gap:12px}
-.cost-row{
-  background:#171d19;border:1px solid var(--line);
-  border-radius:12px;padding:14px
+h1 {
+  font-size:clamp(36px,6vw,58px);
+  line-height:1.05;
+  margin:15px 0;
 }
-.row-top{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;margin-bottom:13px
+.hero p,.description {
+  color:var(--muted);
+  line-height:1.6;
 }
-.row-number{color:var(--accent);font-size:11px;font-weight:bold}
-.row-total{font-weight:bold;font-size:15px}
-.row-fields{
-  display:grid;grid-template-columns:1.5fr 1fr .7fr .8fr .9fr;
-  gap:10px;align-items:end
+.notice {
+  background:#242c20;
+  border:1px solid #52612c;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:25px;
+  font-size:13px;
+  line-height:1.5;
 }
-.row-fields .wide{grid-column:span 1}
-.row-bottom{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-top:12px;gap:10px
+.notice strong { color:var(--accent); }
+.layout {
+  display:grid;
+  grid-template-columns:1.7fr .8fr;
+  gap:20px;
+  align-items:start;
 }
-.row-bottom small{color:var(--muted);font-size:11px}
-.delete-btn{
-  background:transparent;color:var(--danger);border:1px solid #654040;
-  padding:7px 10px;border-radius:7px;cursor:pointer;font-size:11px
+.panel {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px;
 }
-.btn{
-  background:var(--accent);color:#17200d;border:0;border-radius:9px;
-  padding:12px 15px;font-weight:bold;cursor:pointer
+h2 { margin-top:0; }
+.description { font-size:13px;margin-bottom:20px; }
+.fields {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
 }
-.btn.secondary{background:var(--panel2);color:white;border:1px solid var(--line)}
-.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-.summary{position:sticky;top:15px}
-.total-label{color:var(--muted);font-size:12px}
-.total{font-size:clamp(28px,4vw,38px);font-weight:900;margin:10px 0 20px;overflow-wrap:anywhere}
-.summary-line{
-  display:flex;justify-content:space-between;gap:10px;
-  border-top:1px solid var(--line);padding:12px 0;font-size:13px
+label {
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:7px;
 }
-.summary-line span{color:var(--muted)}
-.category-summary{margin-top:20px}
-.category-summary h3{font-size:14px}
-.category-line{
-  display:flex;justify-content:space-between;gap:10px;
-  padding:8px 0;border-bottom:1px solid var(--line);font-size:12px
+input,select {
+  width:100%;
+  padding:11px;
+  background:#111713;
+  color:white;
+  border:1px solid var(--line);
+  border-radius:8px;
+  min-width:0;
 }
-.category-line span{color:var(--muted)}
-.supplier-box{
-  margin-top:20px;padding:15px;background:#151b17;
-  border:1px dashed #59664d;border-radius:12px
+input:focus,select:focus {
+  outline:1px solid var(--accent);
+  border-color:var(--accent);
 }
-.supplier-box h3{font-size:14px}
-.supplier-box p{color:var(--muted);font-size:12px;line-height:1.6}
-footer{
-  border-top:1px solid var(--line);margin-top:35px;padding-top:20px;
-  color:var(--muted);font-size:11px;line-height:1.6
+.section-title {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:30px 0 12px;
+  gap:10px;
 }
-.empty{color:var(--muted);font-size:13px;padding:20px;text-align:center}
-@media(max-width:950px){
-  .layout{grid-template-columns:1fr}
-  .summary{position:static}
+.section-title h3 { margin:0; }
+.cost-list { display:grid;gap:12px; }
+.cost-row {
+  background:#171d19;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
 }
-@media(max-width:700px){
-  .row-fields{grid-template-columns:1fr 1fr}
-  .row-fields .name-field{grid-column:span 2}
-  .row-fields .desc-field{grid-column:span 2}
+.row-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:13px;
 }
-@media(max-width:540px){
-  .container{padding:15px 12px 40px}
-  .panel{padding:15px}
-  .fields{grid-template-columns:1fr}
-  .tag{font-size:9px}
-  .actions .btn{width:100%}
+.row-number {
+  color:var(--accent);
+  font-size:11px;
+  font-weight:bold;
+}
+.row-total { font-weight:bold;font-size:15px; }
+.row-fields {
+  display:grid;
+  grid-template-columns:1.5fr 1fr .7fr .8fr .9fr;
+  gap:10px;
+  align-items:end;
+}
+.row-fields .name-field { grid-column:span 2; }
+.row-fields .desc-field { grid-column:span 3; }
+.row-bottom {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:12px;
+  gap:10px;
+}
+.row-bottom small { color:var(--muted);font-size:11px; }
+.delete-btn {
+  background:transparent;
+  color:var(--danger);
+  border:1px solid #654040;
+  padding:7px 10px;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:11px;
+}
+.btn {
+  background:var(--accent);
+  color:#17200d;
+  border:0;
+  border-radius:9px;
+  padding:12px 15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.btn.secondary {
+  background:var(--panel2);
+  color:white;
+  border:1px solid var(--line);
+}
+.actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:18px;
+}
+.summary { position:sticky;top:15px; }
+.total-label { color:var(--muted);font-size:12px; }
+.total {
+  font-size:clamp(28px,4vw,38px);
+  font-weight:900;
+  margin:10px 0 20px;
+  overflow-wrap:anywhere;
+}
+.summary-line {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  border-top:1px solid var(--line);
+  padding:12px 0;
+  font-size:13px;
+}
+.summary-line span { color:var(--muted); }
+.category-summary { margin-top:20px; }
+.category-summary h3 { font-size:14px; }
+.category-line {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:8px 0;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+}
+.category-line span { color:var(--muted); }
+.supplier-box {
+  margin-top:20px;
+  padding:15px;
+  background:#151b17;
+  border:1px dashed #59664d;
+  border-radius:12px;
+}
+.supplier-box h3 { font-size:14px; }
+.supplier-box p {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+}
+.save-status {
+  color:var(--muted);
+  font-size:11px;
+  margin-top:12px;
+}
+footer {
+  border-top:1px solid var(--line);
+  margin-top:35px;
+  padding-top:20px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+}
+.empty {
+  color:var(--muted);
+  font-size:13px;
+  padding:20px;
+  text-align:center;
+}
+@media(max-width:950px) {
+  .layout { grid-template-columns:1fr; }
+  .summary { position:static; }
+}
+@media(max-width:700px) {
+  .row-fields { grid-template-columns:1fr 1fr; }
+  .row-fields .name-field,
+  .row-fields .desc-field { grid-column:span 2; }
+}
+@media(max-width:540px) {
+  .container { padding:15px 12px 40px; }
+  .panel { padding:15px; }
+  .fields { grid-template-columns:1fr; }
+  .tag { font-size:9px; }
+  .actions .btn { width:100%; }
 }
 </style>
 </head>
@@ -175,7 +303,9 @@ footer{
     <div>
       <label for="floors">Número de plantas</label>
       <select id="floors">
-        <option>1</option><option selected>2</option><option>3</option>
+        <option>1</option>
+        <option selected>2</option>
+        <option>3</option>
       </select>
     </div>
     <div>
@@ -205,26 +335,32 @@ footer{
     <button class="btn secondary" id="resetBtn">Restablecer</button>
     <button class="btn secondary" id="exportBtn">Descargar CSV</button>
   </div>
+  <div class="save-status" id="saveStatus">Guardado automático activado.</div>
 </div>
 
 <aside class="panel summary">
   <div style="color:#d7ff43;font-size:11px;font-weight:bold">
     RESUMEN DEL PROYECTO
   </div>
+
   <div class="total-label">Coste total introducido</div>
   <div class="total" id="grandTotal">0 €</div>
 
   <div class="summary-line">
-    <span>Municipio</span><strong id="locationSummary">Lleida</strong>
+    <span>Municipio</span>
+    <strong id="locationSummary">Lleida</strong>
   </div>
   <div class="summary-line">
-    <span>Superficie</span><strong id="areaSummary">160 m²</strong>
+    <span>Superficie</span>
+    <strong id="areaSummary">160 m²</strong>
   </div>
   <div class="summary-line">
-    <span>Coste por m²</span><strong id="sqmTotal">0 €/m²</strong>
+    <span>Coste por m²</span>
+    <strong id="sqmTotal">0 €/m²</strong>
   </div>
   <div class="summary-line">
-    <span>Partidas</span><strong id="countSummary">0</strong>
+    <span>Partidas</span>
+    <strong id="countSummary">0</strong>
   </div>
 
   <div class="category-summary">
@@ -287,60 +423,30 @@ const initialItems = [
   ["Imprevistos","Reserva para gastos inesperados","Otros","ud"]
 ];
 
+const STORAGE_KEY = "kalkula_project_v1";
+
 let nextId = 1;
+
 let items = initialItems.map(x => ({
-  id: nextId++,
-  name: x[0],
-  desc: x[1],
-  category: x[2],
-  unit: x[3],
-  quantity: 1,
-  price: 0
+  id:nextId++,
+  name:x[0],
+  desc:x[1],
+  category:x[2],
+  unit:x[3],
+  quantity:1,
+  price:0
 }));
 
-const euro = n => new Intl.NumberFormat("es-ES", {
+const euro = n => new Intl.NumberFormat("es-ES",{
   style:"currency",
   currency:"EUR"
 }).format(n);
 
-const number = n => new Intl.NumberFormat("es-ES", {
+const number = n => new Intl.NumberFormat("es-ES",{
   maximumFractionDigits:2
 }).format(n);
 
 const list = document.getElementById("costList");
-  // GUARDADO AUTOMÁTICO DEL PROYECTO
-function saveProject() {
-  const project = {
-    items,
-    nextId,
-    location: document.getElementById("location").value,
-    area: document.getElementById("area").value,
-    floors: document.getElementById("floors").value,
-    quality: document.getElementById("quality").value
-  };
-
-  localStorage.setItem("kalkula_project", JSON.stringify(project));
-}
-
-function loadProject() {
-  const saved = localStorage.getItem("kalkula_project");
-
-  if (!saved) return;
-
-  try {
-    const project = JSON.parse(saved);
-
-    if (Array.isArray(project.items)) items = project.items;
-    if (project.nextId) nextId = project.nextId;
-
-    document.getElementById("location").value = project.location ?? "Lleida";
-    document.getElementById("area").value = project.area ?? 160;
-    document.getElementById("floors").value = project.floors ?? "2";
-    document.getElementById("quality").value = project.quality ?? "Media";
-  } catch (error) {
-    console.error("No se pudo recuperar el proyecto", error);
-  }
-}
 
 const categories = [
   "Terreno","Estudios","Honorarios","Impuestos y licencias",
@@ -350,11 +456,57 @@ const categories = [
 
 const units = ["ud","m²","m³","ml","kg","h","mes","lote"];
 
+function saveProject() {
+  const project = {
+    items,
+    nextId,
+    location:document.getElementById("location").value,
+    area:document.getElementById("area").value,
+    floors:document.getElementById("floors").value,
+    quality:document.getElementById("quality").value
+  };
+
+  try {
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(project));
+    document.getElementById("saveStatus").textContent =
+      "Presupuesto guardado automáticamente en este navegador.";
+  } catch(error) {
+    document.getElementById("saveStatus").textContent =
+      "No se pudo guardar el presupuesto en este navegador.";
+  }
+}
+
+function loadProject() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(!saved) return;
+
+    const project = JSON.parse(saved);
+
+    if(Array.isArray(project.items)) {
+      items = project.items;
+    }
+
+    if(Number.isInteger(project.nextId)) {
+      nextId = project.nextId;
+    }
+
+    document.getElementById("location").value = project.location ?? "Lleida";
+    document.getElementById("area").value = project.area ?? 160;
+    document.getElementById("floors").value = project.floors ?? "2";
+    document.getElementById("quality").value = project.quality ?? "Media";
+
+  } catch(error) {
+    console.error("No se pudo recuperar el proyecto",error);
+  }
+}
+
 function render() {
   list.innerHTML = "";
 
-  if (items.length === 0) {
-    list.innerHTML = '<div class="empty">Todavía no hay partidas. Pulsa «Añadir partida» para empezar.</div>';
+  if(items.length === 0) {
+    list.innerHTML =
+      '<div class="empty">Todavía no hay partidas. Pulsa «Añadir partida» para empezar.</div>';
   }
 
   items.forEach(item => {
@@ -377,61 +529,75 @@ function render() {
     const fields = document.createElement("div");
     fields.className = "row-fields";
 
-    function createField(labelText, value, type, options, className, callback) {
+    function createField(labelText,value,type,options,className,callback) {
       const wrapper = document.createElement("div");
-      if (className) wrapper.className = className;
+
+      if(className) wrapper.className = className;
 
       const label = document.createElement("label");
       label.textContent = labelText;
 
       let control;
 
-      if (type === "select") {
+      if(type === "select") {
         control = document.createElement("select");
+
         options.forEach(option => {
           const opt = document.createElement("option");
           opt.value = option;
           opt.textContent = option;
           control.appendChild(opt);
         });
+
         control.value = value;
+
       } else {
         control = document.createElement("input");
         control.type = type;
         control.value = value;
-        if (type === "number") {
+
+        if(type === "number") {
           control.min = "0";
           control.step = "any";
         }
       }
 
-      control.addEventListener("input", () => callback(control.value));
-      control.addEventListener("change", () => callback(control.value));
+      control.addEventListener("input",() => callback(control.value));
+      control.addEventListener("change",() => callback(control.value));
+
       wrapper.append(label,control);
       return wrapper;
     }
 
     fields.append(
       createField("Nombre de la partida",item.name,"text",null,"name-field",v=>{
-        item.name=v;
+        item.name = v;
+        saveProject();
       }),
+
       createField("Categoría",item.category,"select",categories,"",v=>{
-        item.category=v;
+        item.category = v;
         updateSummary();
       }),
+
       createField("Cantidad",item.quantity,"number",null,"",v=>{
-        item.quantity=Math.max(0,Number(v)||0);
+        item.quantity = Math.max(0,Number(v)||0);
         updateRow();
       }),
+
       createField("Unidad",item.unit,"select",units,"",v=>{
-        item.unit=v;
+        item.unit = v;
+        saveProject();
       }),
+
       createField("Precio por unidad (€)",item.price,"number",null,"",v=>{
-        item.price=Math.max(0,Number(v)||0);
+        item.price = Math.max(0,Number(v)||0);
         updateRow();
       }),
+
       createField("Descripción",item.desc,"text",null,"desc-field",v=>{
-        item.desc=v;
+        item.desc = v;
+        saveProject();
       })
     );
 
@@ -444,8 +610,9 @@ function render() {
     const del = document.createElement("button");
     del.className = "delete-btn";
     del.textContent = "Eliminar partida";
+
     del.addEventListener("click",()=>{
-      items=items.filter(x=>x.id!==item.id);
+      items = items.filter(x=>x.id !== item.id);
       render();
     });
 
@@ -454,7 +621,7 @@ function render() {
     list.appendChild(row);
 
     function updateRow() {
-      total.textContent=euro(item.quantity*item.price);
+      total.textContent = euro(item.quantity * item.price);
       updateSummary();
     }
   });
@@ -462,46 +629,61 @@ function render() {
   updateSummary();
 }
 
-function updateSummary() saveProject();{
+function updateSummary() {
   const total = items.reduce((sum,item)=>
-    sum + item.quantity*item.price,0);
+    sum + item.quantity * item.price,0);
 
-  const area = Math.max(0,Number(document.getElementById("area").value)||0);
+  const area = Math.max(0,
+    Number(document.getElementById("area").value)||0
+  );
+
   const location = document.getElementById("location").value.trim();
 
-  document.getElementById("grandTotal").textContent=euro(total);
-  document.getElementById("locationSummary").textContent=location||"Sin indicar";
-  document.getElementById("areaSummary").textContent=number(area)+" m²";
-  document.getElementById("sqmTotal").textContent=area
-    ? number(total/area)+" €/m²"
-    : "—";
-  document.getElementById("countSummary").textContent=items.length;
+  document.getElementById("grandTotal").textContent = euro(total);
 
-  const totals={};
+  document.getElementById("locationSummary").textContent =
+    location || "Sin indicar";
+
+  document.getElementById("areaSummary").textContent =
+    number(area) + " m²";
+
+  document.getElementById("sqmTotal").textContent = area
+    ? number(total/area) + " €/m²"
+    : "—";
+
+  document.getElementById("countSummary").textContent = items.length;
+
+  const totals = {};
+
   items.forEach(item=>{
-    totals[item.category]=(totals[item.category]||0)+item.quantity*item.price;
+    totals[item.category] =
+      (totals[item.category]||0) + item.quantity*item.price;
   });
 
-  const box=document.getElementById("categorySummary");
-  box.innerHTML="";
+  const box = document.getElementById("categorySummary");
+  box.innerHTML = "";
 
   Object.entries(totals).forEach(([category,value])=>{
-    const line=document.createElement("div");
-    line.className="category-line";
+    const line = document.createElement("div");
+    line.className = "category-line";
 
-    const name=document.createElement("span");
-    name.textContent=category;
+    const name = document.createElement("span");
+    name.textContent = category;
 
-    const amount=document.createElement("strong");
-    amount.textContent=euro(value);
+    const amount = document.createElement("strong");
+    amount.textContent = euro(value);
 
     line.append(name,amount);
     box.appendChild(line);
   });
+
+  saveProject();
 }
 
 document.getElementById("area").addEventListener("input",updateSummary);
 document.getElementById("location").addEventListener("input",updateSummary);
+document.getElementById("floors").addEventListener("change",saveProject);
+document.getElementById("quality").addEventListener("change",saveProject);
 
 document.getElementById("addBtn").addEventListener("click",()=>{
   items.push({
@@ -513,14 +695,18 @@ document.getElementById("addBtn").addEventListener("click",()=>{
     quantity:1,
     price:0
   });
+
   render();
 });
 
 document.getElementById("resetBtn").addEventListener("click",()=>{
-  if(!confirm("¿Quieres restablecer todas las partidas y sus importes?")) return;
+  if(!confirm("¿Quieres restablecer todas las partidas y sus importes?")) {
+    return;
+  }
 
-  nextId=1;
-  items=initialItems.map(x=>({
+  nextId = 1;
+
+  items = initialItems.map(x=>({
     id:nextId++,
     name:x[0],
     desc:x[1],
@@ -529,35 +715,45 @@ document.getElementById("resetBtn").addEventListener("click",()=>{
     quantity:1,
     price:0
   }));
+
   render();
 });
 
 document.getElementById("exportBtn").addEventListener("click",()=>{
-  const rows=[
+  const rows = [
     ["Partida","Descripción","Categoría","Cantidad","Unidad","Precio unitario (€)","Total (€)"],
     ...items.map(x=>[
-      x.name,x.desc,x.category,x.quantity,x.unit,x.price,x.quantity*x.price
+      x.name,
+      x.desc,
+      x.category,
+      x.quantity,
+      x.unit,
+      x.price,
+      x.quantity*x.price
     ])
   ];
 
-  const csv=rows.map(row=>
+  const csv = rows.map(row=>
     row.map(value=>'"'+String(value).replace(/"/g,'""')+'"').join(";")
   ).join("\n");
 
-  const blob=new Blob(["\uFEFF"+csv],{
+  const blob = new Blob(["\uFEFF"+csv],{
     type:"text/csv;charset=utf-8;"
   });
 
-  const url=URL.createObjectURL(blob);
-  const link=document.createElement("a");
-  link.href=url;
-  link.download="presupuesto-kalkula.csv";
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "presupuesto-kalkula.csv";
   link.click();
+
   URL.revokeObjectURL(url);
 });
 
 loadProject();
 render();
 </script>
+
 </body>
 </html>
