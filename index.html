@@ -698,8 +698,81 @@ function render() {
       render();
     });
 
-    bottom.append(detail,del);
-    row.append(top,fields,bottom);
+       // Comparador de precios
+    const catalogKey = item.name.trim();
+
+    const options = priceCatalog[catalogKey];
+
+    if(options && options.length) {
+      const compareButton = document.createElement("button");
+      compareButton.className = "compare-btn";
+      compareButton.textContent = "Comparar precios";
+
+      const priceBox = document.createElement("div");
+      priceBox.className = "price-options";
+
+      compareButton.addEventListener("click",()=>{
+        priceBox.classList.toggle("open");
+      });
+
+      options.forEach(option=>{
+        const optionBox = document.createElement("div");
+        optionBox.className = "price-option";
+
+        const title = document.createElement("strong");
+        title.textContent = option.name;
+
+        const specification = document.createElement("p");
+        specification.textContent =
+          option.specification + " · " +
+          euro(option.price) + "/" + option.unit;
+
+        const type = document.createElement("p");
+        type.textContent = option.type + " · " + option.date;
+
+        const conditions = document.createElement("p");
+        conditions.textContent = option.conditions;
+
+        const source = document.createElement("a");
+        source.href = option.url;
+        source.target = "_blank";
+        source.rel = "noopener noreferrer";
+        source.textContent = "Consultar fuente";
+
+        const selectButton = document.createElement("button");
+        selectButton.className = "select-price";
+        selectButton.textContent = "Utilizar este precio";
+
+        selectButton.addEventListener("click",()=>{
+          if(item.unit !== option.unit) {
+            item.unit = option.unit;
+          }
+
+          item.price = option.price;
+          render();
+        });
+
+        optionBox.append(
+          title,
+          specification,
+          type,
+          conditions,
+          source,
+          document.createElement("br"),
+          selectButton
+        );
+
+        priceBox.appendChild(optionBox);
+      });
+
+      const comparison = document.createElement("div");
+      comparison.append(compareButton,priceBox);
+
+      row.append(top,fields,bottom,comparison);
+    } else {
+      row.append(top,fields,bottom);
+    }
+
     list.appendChild(row);
 
     function updateRow() {
