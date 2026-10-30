@@ -543,8 +543,16 @@ function loadProject() {
     const project = JSON.parse(saved);
 
     if(Array.isArray(project.items)) {
-      items = project.items;
+  items = project.items;
+
+  items.forEach(item => {
+    if(item.name === "Cimentación") {
+      item.name = "Hormigón";
+      item.desc = "Hormigón estructural HA-25";
+      item.unit = "m³";
     }
+  });
+}
 
     if(Number.isInteger(project.nextId)) {
       nextId = project.nextId;
