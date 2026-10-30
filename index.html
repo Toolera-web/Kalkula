@@ -258,6 +258,65 @@ footer {
   .tag { font-size:9px; }
   .actions .btn { width:100%; }
 }
+  .compare-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 8px 11px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.price-options {
+  display: none;
+  margin-top: 13px;
+  padding: 13px;
+  background: #111713;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.price-options.open {
+  display: block;
+}
+
+.price-option {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.price-option:last-child {
+  border-bottom: 0;
+}
+
+.price-option strong {
+  color: var(--accent);
+}
+
+.price-option p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.price-option a {
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.select-price {
+  margin-top: 7px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #17200d;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 11px;
+}
 </style>
 </head>
 
@@ -400,7 +459,7 @@ const initialItems = [
   ["Arquitecto técnico","Dirección de ejecución","Honorarios","ud"],
   ["Licencias e ICIO","Trámites y tributos municipales","Impuestos y licencias","ud"],
   ["Movimiento de tierras","Excavación y maquinaria","Construcción","m³"],
-  ["Cimentación","Hormigón, acero y mano de obra","Construcción","m²"],
+  ["Hormigón","Hormigón estructural HA-25","Construcción","m³"],
   ["Estructura","Pilares, vigas y forjados","Construcción","m²"],
   ["Fachadas y cerramientos","Paredes y aislamiento","Construcción","m²"],
   ["Cubierta y tejado","Estructura e impermeabilización","Construcción","m²"],
@@ -500,7 +559,30 @@ function loadProject() {
     console.error("No se pudo recuperar el proyecto",error);
   }
 }
-
+const priceCatalog = {
+  "Hormigón": [
+    {
+      name: "Ayuntamiento de Lleida",
+      specification: "HA-25/B/20/I",
+      price: 91.30,
+      unit: "m³",
+      type: "Referencia de precios pública",
+      date: "25/04/2025",
+      conditions: "Precio de material en una justificación de precios municipal. No equivale a una oferta comercial.",
+      url: "https://seu.paeria.cat/documentPublic/download/45853"
+    },
+    {
+      name: "Banco de precios CERP",
+      specification: "HA-25/B/20/XC1",
+      price: 97.10,
+      unit: "m³",
+      type: "Referencia de banco de precios",
+      date: "Consulta: 30/10/2026",
+      conditions: "Precio de referencia publicado. Confirmar transporte, bombeo e impuestos.",
+      url: "https://items.cerp.es/capitulos/precios-basicos--cimentaciones-y-estructuras/hormigones"
+    }
+  ]
+};
 function render() {
   list.innerHTML = "";
 
