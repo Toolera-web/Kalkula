@@ -308,6 +308,39 @@ const number = n => new Intl.NumberFormat("es-ES", {
 }).format(n);
 
 const list = document.getElementById("costList");
+  // GUARDADO AUTOMÁTICO DEL PROYECTO
+function saveProject() {
+  const project = {
+    items,
+    nextId,
+    location: document.getElementById("location").value,
+    area: document.getElementById("area").value,
+    floors: document.getElementById("floors").value,
+    quality: document.getElementById("quality").value
+  };
+
+  localStorage.setItem("kalkula_project", JSON.stringify(project));
+}
+
+function loadProject() {
+  const saved = localStorage.getItem("kalkula_project");
+
+  if (!saved) return;
+
+  try {
+    const project = JSON.parse(saved);
+
+    if (Array.isArray(project.items)) items = project.items;
+    if (project.nextId) nextId = project.nextId;
+
+    document.getElementById("location").value = project.location ?? "Lleida";
+    document.getElementById("area").value = project.area ?? 160;
+    document.getElementById("floors").value = project.floors ?? "2";
+    document.getElementById("quality").value = project.quality ?? "Media";
+  } catch (error) {
+    console.error("No se pudo recuperar el proyecto", error);
+  }
+}
 
 const categories = [
   "Terreno","Estudios","Honorarios","Impuestos y licencias",
@@ -429,7 +462,7 @@ function render() {
   updateSummary();
 }
 
-function updateSummary() {
+function updateSummary() saveProject();{
   const total = items.reduce((sum,item)=>
     sum + item.quantity*item.price,0);
 
@@ -523,6 +556,7 @@ document.getElementById("exportBtn").addEventListener("click",()=>{
   URL.revokeObjectURL(url);
 });
 
+loadProject();
 render();
 </script>
 </body>
