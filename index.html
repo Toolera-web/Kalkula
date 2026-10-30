@@ -3,920 +3,520 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="KALKULA: calcula el coste completo de construir tu vivienda.">
-<title>KALKULA | Calculadora de construcción</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KALKULA | Presupuesto de construcción</title>
 <style>
-:root {
-  --bg:#111412;
-  --panel:#1b211d;
-  --panel2:#232b26;
-  --line:#354139;
-  --text:#f3f6f2;
-  --muted:#aab5ad;
-  --accent:#d7ff43;
-  --danger:#ff7777;
-}
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,sans-serif;
-}
-button,input,select { font:inherit; }
-.container {
-  max-width:1250px;
-  margin:auto;
-  padding:25px 20px 60px;
-}
-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 0 25px;
-  border-bottom:1px solid var(--line);
-}
-.logo {
-  font-size:27px;
-  font-weight:900;
-  letter-spacing:-1px;
-}
-.logo span { color:var(--accent); }
-.tag { color:var(--muted);font-size:11px; }
-.hero { padding:45px 0 30px;max-width:750px; }
-.eyebrow {
-  color:var(--accent);
-  font-size:12px;
-  font-weight:bold;
-  letter-spacing:2px;
-}
-h1 {
-  font-size:clamp(36px,6vw,58px);
-  line-height:1.05;
-  margin:15px 0;
-}
-.hero p,.description {
-  color:var(--muted);
-  line-height:1.6;
-}
-.notice {
-  background:#242c20;
-  border:1px solid #52612c;
-  padding:15px;
-  border-radius:12px;
-  margin-bottom:25px;
-  font-size:13px;
-  line-height:1.5;
-}
-.notice strong { color:var(--accent); }
-.layout {
-  display:grid;
-  grid-template-columns:1.7fr .8fr;
-  gap:20px;
-  align-items:start;
-}
-.panel {
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:22px;
-}
-h2 { margin-top:0; }
-.description { font-size:13px;margin-bottom:20px; }
-.fields {
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-}
-label {
-  display:block;
-  color:var(--muted);
-  font-size:11px;
-  margin-bottom:7px;
-}
-input,select {
-  width:100%;
-  padding:11px;
-  background:#111713;
-  color:white;
-  border:1px solid var(--line);
-  border-radius:8px;
-  min-width:0;
-}
-input:focus,select:focus {
-  outline:1px solid var(--accent);
-  border-color:var(--accent);
-}
-.section-title {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:30px 0 12px;
-  gap:10px;
-}
-.section-title h3 { margin:0; }
-.cost-list { display:grid;gap:12px; }
-.cost-row {
-  background:#171d19;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:14px;
-}
-.row-top {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:13px;
-}
-.row-number {
-  color:var(--accent);
-  font-size:11px;
-  font-weight:bold;
-}
-.row-total { font-weight:bold;font-size:15px; }
-.row-fields {
-  display:grid;
-  grid-template-columns:1.5fr 1fr .7fr .8fr .9fr;
-  gap:10px;
-  align-items:end;
-}
-.row-fields .name-field { grid-column:span 2; }
-.row-fields .desc-field { grid-column:span 3; }
-.row-bottom {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:12px;
-  gap:10px;
-}
-.row-bottom small { color:var(--muted);font-size:11px; }
-.delete-btn {
-  background:transparent;
-  color:var(--danger);
-  border:1px solid #654040;
-  padding:7px 10px;
-  border-radius:7px;
-  cursor:pointer;
-  font-size:11px;
-}
-.btn {
-  background:var(--accent);
-  color:#17200d;
-  border:0;
-  border-radius:9px;
-  padding:12px 15px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.btn.secondary {
-  background:var(--panel2);
-  color:white;
-  border:1px solid var(--line);
-}
-.actions {
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:18px;
-}
-.summary { position:sticky;top:15px; }
-.total-label { color:var(--muted);font-size:12px; }
-.total {
-  font-size:clamp(28px,4vw,38px);
-  font-weight:900;
-  margin:10px 0 20px;
-  overflow-wrap:anywhere;
-}
-.summary-line {
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  border-top:1px solid var(--line);
-  padding:12px 0;
-  font-size:13px;
-}
-.summary-line span { color:var(--muted); }
-.category-summary { margin-top:20px; }
-.category-summary h3 { font-size:14px; }
-.category-line {
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  padding:8px 0;
-  border-bottom:1px solid var(--line);
-  font-size:12px;
-}
-.category-line span { color:var(--muted); }
-.supplier-box {
-  margin-top:20px;
-  padding:15px;
-  background:#151b17;
-  border:1px dashed #59664d;
-  border-radius:12px;
-}
-.supplier-box h3 { font-size:14px; }
-.supplier-box p {
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-}
-.save-status {
-  color:var(--muted);
-  font-size:11px;
-  margin-top:12px;
-}
-footer {
-  border-top:1px solid var(--line);
-  margin-top:35px;
-  padding-top:20px;
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.6;
-}
-.empty {
-  color:var(--muted);
-  font-size:13px;
-  padding:20px;
-  text-align:center;
-}
-@media(max-width:950px) {
-  .layout { grid-template-columns:1fr; }
-  .summary { position:static; }
-}
-@media(max-width:700px) {
-  .row-fields { grid-template-columns:1fr 1fr; }
-  .row-fields .name-field,
-  .row-fields .desc-field { grid-column:span 2; }
-}
-@media(max-width:540px) {
-  .container { padding:15px 12px 40px; }
-  .panel { padding:15px; }
-  .fields { grid-template-columns:1fr; }
-  .tag { font-size:9px; }
-  .actions .btn { width:100%; }
-}
-  .compare-btn {
-  background: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  padding: 8px 11px;
-  border-radius: 7px;
-  cursor: pointer;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-.price-options {
-  display: none;
-  margin-top: 13px;
-  padding: 13px;
-  background: #111713;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-}
-
-.price-options.open {
-  display: block;
-}
-
-.price-option {
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.price-option:last-child {
-  border-bottom: 0;
-}
-
-.price-option strong {
-  color: var(--accent);
-}
-
-.price-option p {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-.price-option a {
-  color: var(--accent);
-  font-size: 11px;
-}
-
-.select-price {
-  margin-top: 7px;
-  padding: 7px 10px;
-  border: 0;
-  border-radius: 6px;
-  background: var(--accent);
-  color: #17200d;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 11px;
-}
+:root{--bg:#101310;--panel:#191e19;--panel2:#202720;--line:#303a30;--text:#edf2e9;--muted:#9ba797;--lime:#c5f36a;--green:#789c43;--red:#ef7777}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{padding:22px 5%;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.logo{font-size:25px;font-weight:900;letter-spacing:2px}.logo span{color:var(--lime)}
+header small{color:var(--muted)}
+main{max-width:1450px;margin:auto;padding:25px 4% 70px}
+.hero{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+h1{font-size:27px;margin:0 0 8px}.sub{color:var(--muted);line-height:1.5}
+button.primary{background:var(--lime);color:#11180d;border:0;font-weight:bold}
+button, .filelabel{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px 13px}
+button:hover,.filelabel:hover{border-color:var(--lime)}
+button.danger{color:var(--red)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
+.stat,.panel,.phase,.item{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.stat{padding:17px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:23px;margin-top:9px;color:var(--lime)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}
+.tabs button.active{background:var(--lime);color:#11180d;border-color:var(--lime);font-weight:bold}
+.tab{display:none}.tab.active{display:block}
+.panel{padding:20px;margin-bottom:17px}
+h2{font-size:19px;margin:0 0 16px}h3{font-size:15px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.field{display:flex;flex-direction:column;gap:6px}
+label{color:var(--muted);font-size:12px}
+input,select,textarea{background:#101510;color:var(--text);border:1px solid var(--line);border-radius:7px;padding:10px;width:100%;min-width:0}
+input:focus,select:focus,textarea:focus{outline:1px solid var(--lime)}
+textarea{min-height:70px;resize:vertical}
+.muted{color:var(--muted)}.note{font-size:12px;color:var(--muted);line-height:1.5}
+.phase{margin-bottom:13px;overflow:hidden}
+.phasehead{display:flex;justify-content:space-between;align-items:center;padding:15px 17px;background:var(--panel2);gap:10px;flex-wrap:wrap}
+.phasehead strong{font-size:15px}.phasebody{padding:12px}
+.item{padding:14px;margin-bottom:10px;background:#151a15}
+.itemtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
+.itemtop strong{color:var(--lime)}
+.itemgrid{display:grid;grid-template-columns:2fr 1.2fr .8fr .7fr 1fr 1fr;gap:9px}
+.itemgrid .field{min-width:0}
+.itembottom{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.itembottom strong{font-size:16px}
+.options{display:none;border-top:1px solid var(--line);margin-top:12px;padding-top:12px}
+.options.open{display:block}
+.option{border:1px solid var(--line);border-radius:8px;padding:12px;margin:8px 0;background:#101510}
+.option strong{color:var(--lime)}.option p{margin:7px 0;color:var(--muted);font-size:12px;line-height:1.5}
+a{color:var(--lime)}
+.badge{font-size:10px;color:var(--lime);border:1px solid var(--green);padding:4px 7px;border-radius:20px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.totalrow{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+.totalrow:last-child{border:0}
+.bigtotal{font-size:28px;color:var(--lime);font-weight:bold}
+.bar{height:9px;background:#303830;border-radius:10px;overflow:hidden;margin:7px 0 13px}
+.bar span{display:block;height:100%;background:var(--lime)}
+#planPreview{max-width:100%;max-height:450px;display:none;margin-top:15px;border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{text-align:left;padding:10px;border-bottom:1px solid var(--line)}
+th{color:var(--muted)}
+footer{text-align:center;color:var(--muted);padding:25px}
+@media(max-width:850px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}.itemgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){main{padding:18px 12px}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.itemgrid{grid-template-columns:1fr 1fr}.hero h1{font-size:22px}}
 </style>
 </head>
-
 <body>
-<main class="container">
-
 <header>
-  <div class="logo">KAL<span>KULA</span></div>
-  <div class="tag">CONSTRUCTION COST CALCULATOR</div>
+ <div class="logo">KALKU<span>LA</span></div>
+ <small>CALCULADORA ECONÓMICA DE CONSTRUCCIÓN</small>
 </header>
-
-<section class="hero">
-  <div class="eyebrow">DE LA PARCELA A LAS LLAVES</div>
-  <h1>Construir una casa. Saber cuánto cuesta.</h1>
-  <p>
-    Calcula y organiza todos los gastos de construir una vivienda,
-    compara proveedores y controla tu presupuesto desde el principio
-    hasta la entrega de las llaves.
-  </p>
-</section>
-
-<div class="notice">
-  <strong>PRESUPUESTOS TRANSPARENTES:</strong>
-  Los precios de proveedores deberán proceder de tarifas públicas
-  o presupuestos reales. KALKULA no inventará ofertas.
-</div>
-
-<section class="layout">
-
-<div class="panel">
-  <h2>Datos de la vivienda</h2>
-  <p class="description">Introduce los datos básicos de tu proyecto.</p>
-
-  <div class="fields">
-    <div>
-      <label for="location">Municipio</label>
-      <input id="location" value="Lleida">
-    </div>
-    <div>
-      <label for="area">Superficie construida (m²)</label>
-      <input id="area" type="number" value="160" min="1">
-    </div>
-    <div>
-      <label for="floors">Número de plantas</label>
-      <select id="floors">
-        <option>1</option>
-        <option selected>2</option>
-        <option>3</option>
-      </select>
-    </div>
-    <div>
-      <label for="quality">Calidad prevista</label>
-      <select id="quality">
-        <option>Económica</option>
-        <option selected>Media</option>
-        <option>Alta</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="section-title">
-    <h3>Presupuesto completo</h3>
-    <span style="font-size:11px;color:#aab5ad">Importes en euros</span>
-  </div>
-
-  <p class="description">
-    Edita las partidas, introduce cantidades y precios unitarios.
-    El importe total se calculará automáticamente.
-  </p>
-
-  <div id="costList" class="cost-list"></div>
-
+<main>
+ <section class="hero">
+  <div><h1>Presupuesto de construcción</h1><div class="sub">Calcula el coste de tu vivienda desde la compra del terreno hasta la entrega de llaves.</div></div>
   <div class="actions">
-    <button class="btn" id="addBtn">+ Añadir partida</button>
-    <button class="btn secondary" id="resetBtn">Restablecer</button>
-    <button class="btn secondary" id="exportBtn">Descargar CSV</button>
+   <button onclick="saveProject()">Guardar proyecto</button>
+   <button onclick="exportCSV()">Exportar CSV</button>
+   <button onclick="exportJSON()">Copia de seguridad</button>
   </div>
-  <div class="save-status" id="saveStatus">Guardado automático activado.</div>
-</div>
+ </section>
 
-<aside class="panel summary">
-  <div style="color:#d7ff43;font-size:11px;font-weight:bold">
-    RESUMEN DEL PROYECTO
+ <section class="stats">
+  <div class="stat"><small>Coste estimado total</small><strong id="grandTotal">0 €</strong></div>
+  <div class="stat"><small>Coste por m²</small><strong id="sqmTotal">—</strong></div>
+  <div class="stat"><small>Superficie construida</small><strong id="areaStat">0 m²</strong></div>
+  <div class="stat"><small>Número de partidas</small><strong id="countStat">0</strong></div>
+ </section>
+
+ <nav class="tabs">
+  <button class="active" data-tab="project">Proyecto</button>
+  <button data-tab="budget">Presupuesto</button>
+  <button data-tab="taxes">Impuestos y gastos</button>
+  <button data-tab="plan">Plano</button>
+  <button data-tab="scenarios">Escenarios</button>
+  <button data-tab="summary">Resumen</button>
+ </nav>
+
+ <section class="tab active" id="project">
+  <div class="panel">
+   <h2>1. Datos generales del proyecto</h2>
+   <div class="grid">
+    <div class="field"><label>Nombre del proyecto</label><input id="projectName" value="Mi vivienda"></div>
+    <div class="field"><label>Municipio</label><input id="location" value="Lleida"></div>
+    <div class="field"><label>Provincia</label><input id="province" value="Lleida"></div>
+    <div class="field"><label>Superficie de parcela (m²)</label><input id="plotArea" type="number" value="206"></div>
+    <div class="field"><label>Superficie construida total (m²)</label><input id="area" type="number" value="160"></div>
+    <div class="field"><label>Número de plantas</label><select id="floors"><option>1</option><option selected>2</option><option>3</option></select></div>
+    <div class="field"><label>Tipo de vivienda</label><select id="houseType"><option>Unifamiliar aislada</option><option>Unifamiliar adosada</option><option>Unifamiliar entre medianeras</option></select></div>
+    <div class="field"><label>Calidad prevista</label><select id="quality"><option>Básica</option><option selected>Media</option><option>Alta</option><option>Premium</option></select></div>
+    <div class="field"><label>Estado del proyecto</label><select id="status"><option>Estudio inicial</option><option>Anteproyecto</option><option>Proyecto básico</option><option>Proyecto de ejecución</option><option>En construcción</option></select></div>
+    <div class="field"><label>Precio de compra del terreno (€)</label><input id="landPrice" type="number" value="0"></div>
+    <div class="field"><label>Habitaciones</label><input id="bedrooms" type="number" value="3"></div>
+    <div class="field"><label>Baños</label><input id="bathrooms" type="number" value="3"></div>
+   </div>
   </div>
-
-  <div class="total-label">Coste total introducido</div>
-  <div class="total" id="grandTotal">0 €</div>
-
-  <div class="summary-line">
-    <span>Municipio</span>
-    <strong id="locationSummary">Lleida</strong>
+  <div class="panel">
+   <h2>2. Información de la parcela</h2>
+   <div class="grid">
+    <div class="field"><label>Referencia catastral</label><input id="cadastral" placeholder="Referencia catastral"></div>
+    <div class="field"><label>Dirección de la parcela</label><input id="address" placeholder="Calle y número"></div>
+    <div class="field"><label>Orientación</label><select id="orientation"><option>No indicada</option><option>Norte</option><option>Sur</option><option>Este</option><option>Oeste</option></select></div>
+    <div class="field"><label>Anchura de parcela (m)</label><input id="plotWidth" type="number" value="10.3"></div>
+    <div class="field"><label>Longitud de parcela (m)</label><input id="plotLength" type="number" value="20"></div>
+    <div class="field"><label>Observaciones urbanísticas</label><input id="urban" placeholder="Edificabilidad, retranqueos..."></div>
+   </div>
+   <p class="note">La edificabilidad, ocupación, retranqueos y compatibilidad urbanística deben comprobarse en el planeamiento municipal. KALKULA no sustituye una consulta urbanística ni una revisión registral.</p>
   </div>
-  <div class="summary-line">
-    <span>Superficie</span>
-    <strong id="areaSummary">160 m²</strong>
-  </div>
-  <div class="summary-line">
-    <span>Coste por m²</span>
-    <strong id="sqmTotal">0 €/m²</strong>
-  </div>
-  <div class="summary-line">
-    <span>Partidas</span>
-    <strong id="countSummary">0</strong>
-  </div>
+ </section>
 
-  <div class="category-summary">
-    <h3>Desglose por categoría</h3>
-    <div id="categorySummary"></div>
+ <section class="tab" id="budget">
+  <div class="panel">
+   <h2>Presupuesto por fases</h2>
+   <p class="note">Edita cantidades y precios. Cada partida calcula automáticamente su importe. Puedes añadir partidas nuevas a cualquier fase y consultar alternativas de precio cuando haya referencias disponibles.</p>
+   <div class="actions">
+    <button class="primary" onclick="addItem()">+ Añadir partida</button>
+    <button onclick="resetBudget()">Restablecer partidas iniciales</button>
+   </div>
   </div>
+  <div id="budgetList"></div>
+ </section>
 
-  <div class="supplier-box">
-    <h3>Comparador de proveedores</h3>
-    <p>
-      La siguiente fase incorporará tres alternativas por partida:
-      económica, media y prémium, con empresa, características,
-      precio, fecha de consulta y enlace a la fuente.
-    </p>
+ <section class="tab" id="taxes">
+  <div class="panel">
+   <h2>Impuestos y gastos de adquisición</h2>
+   <p class="note">Introduce los tipos aplicables a tu operación. No todos los impuestos se aplican a todos los terrenos ni en todas las circunstancias. Comprueba el tratamiento fiscal vigente antes de cerrar el presupuesto.</p>
+   <div class="grid">
+    <div class="field"><label>Tipo de compra del terreno</label><select id="landTaxType"><option value="itp">ITP (operación sujeta a ITP)</option><option value="vat">IVA + AJD (operación sujeta a IVA)</option><option value="none">Sin impuesto calculado</option></select></div>
+    <div class="field"><label>ITP (%)</label><input id="itpRate" type="number" value="10" step="0.1"></div>
+    <div class="field"><label>IVA terreno (%)</label><input id="landVatRate" type="number" value="21" step="0.1"></div>
+    <div class="field"><label>AJD compra (%)</label><input id="landAjdRate" type="number" value="1.5" step="0.1"></div>
+    <div class="field"><label>Notaría y registro (€)</label><input id="notary" type="number" value="1500"></div>
+    <div class="field"><label>Gestoría y otros (€)</label><input id="otherPurchase" type="number" value="500"></div>
+   </div>
   </div>
-</aside>
+  <div class="panel">
+   <h2>Impuestos de construcción</h2>
+   <div class="grid">
+    <div class="field"><label>ICIO municipal (%)</label><input id="icioRate" type="number" value="4" step="0.1"></div>
+    <div class="field"><label>Base del ICIO (PEM) (€)</label><input id="icioBase" type="number" value="0"></div>
+    <div class="field"><label>IVA de ejecución de obra (%)</label><input id="buildVatRate" type="number" value="10" step="0.1"></div>
+    <div class="field"><label>IVA de servicios profesionales (%)</label><input id="professionalVatRate" type="number" value="21" step="0.1"></div>
+    <div class="field"><label>AJD declaración de obra nueva (%)</label><input id="newBuildAjdRate" type="number" value="1.5" step="0.1"></div>
+    <div class="field"><label>Base AJD obra nueva (€)</label><input id="newBuildAjdBase" type="number" value="0"></div>
+   </div>
+   <p class="note">El ICIO se calcula sobre la base imponible legal correspondiente, que no tiene por qué coincidir con el presupuesto total. El IVA reducido de determinadas ejecuciones de obra depende de requisitos legales. Las compras independientes de materiales pueden tener otro tratamiento. El AJD y los impuestos de adquisición dependen de la operación y de la normativa aplicable.</p>
+  </div>
+  <div class="panel">
+   <h2>Resultado fiscal estimado</h2>
+   <div id="taxSummary"></div>
+  </div>
+ </section>
 
-</section>
+ <section class="tab" id="plan">
+  <div class="panel">
+   <h2>Plano de la vivienda</h2>
+   <p class="note">Sube un plano en imagen o PDF para tenerlo como referencia visual. La imagen no permite deducir automáticamente estructura, instalaciones ni mediciones fiables. Introduce o confirma las superficies manualmente.</p>
+   <div class="field">
+    <label>Subir plano (imagen o PDF)</label>
+    <input type="file" id="planFile" accept="image/*,.pdf">
+   </div>
+   <img id="planPreview" alt="Vista previa del plano">
+   <p id="planFileName" class="note">No hay ningún plano cargado.</p>
+  </div>
+  <div class="panel">
+   <h2>Distribución y superficies</h2>
+   <div class="actions"><button class="primary" onclick="addRoom()">+ Añadir estancia</button></div>
+   <div id="rooms"></div>
+   <div class="totalrow"><strong>Superficie total de estancias</strong><strong id="roomTotal">0 m²</strong></div>
+   <p class="note">La superficie de las estancias no tiene por qué coincidir con la superficie construida: hay que considerar muros, tabiques, escaleras, distribuidores y otros elementos.</p>
+  </div>
+ </section>
 
-<footer>
-  KALKULA es una herramienta de estimación económica.
-  Los cálculos no sustituyen un proyecto técnico ni un presupuesto
-  profesional. Los impuestos se calcularán según la operación
-  y la normativa vigente.
-</footer>
+ <section class="tab" id="scenarios">
+  <div class="panel">
+   <h2>Comparación de escenarios</h2>
+   <p class="note">Compara el presupuesto actual con escenarios de variación. Son simulaciones matemáticas, no presupuestos alternativos de proveedores.</p>
+   <div class="grid">
+    <div class="field"><label>Escenario económico (%)</label><input id="lowScenario" type="number" value="-10"></div>
+    <div class="field"><label>Escenario actual (%)</label><input id="midScenario" type="number" value="0"></div>
+    <div class="field"><label>Escenario superior (%)</label><input id="highScenario" type="number" value="15"></div>
+   </div>
+   <button class="primary" onclick="renderScenarios()">Calcular escenarios</button>
+   <div id="scenarioResults"></div>
+  </div>
+ </section>
 
+ <section class="tab" id="summary">
+  <div class="panel">
+   <h2>Resumen económico del proyecto</h2>
+   <div id="summaryContent"></div>
+  </div>
+  <div class="panel">
+   <h2>Coste por fases</h2>
+   <div id="categoryChart"></div>
+  </div>
+  <div class="panel">
+   <h2>Advertencias y comprobaciones</h2>
+   <ul class="note">
+    <li>Los precios de referencia no equivalen necesariamente a ofertas comerciales.</li>
+    <li>Las cantidades deben revisarse con mediciones y proyecto técnico.</li>
+    <li>Los impuestos y tasas deben comprobarse según municipio y operación.</li>
+    <li>Los honorarios profesionales y presupuestos de contratistas deben solicitarse a cada profesional.</li>
+    <li>La viabilidad urbanística, técnica y jurídica debe confirmarse antes de comprar el terreno.</li>
+   </ul>
+  </div>
+ </section>
 </main>
+<footer>KALKULA · Herramienta de estimación económica · Los resultados son orientativos y requieren validación profesional.</footer>
 
 <script>
-const initialItems = [
-  ["Compra del terreno","Precio de la parcela","Terreno","ud"],
-  ["Impuestos y gastos de compraventa","ITP, IVA, AJD, notaría y registro","Terreno","ud"],
-  ["Estudio topográfico","Medición de la parcela","Estudios","ud"],
-  ["Estudio geotécnico","Análisis del terreno","Estudios","ud"],
-  ["Arquitecto y proyecto","Proyecto básico y de ejecución","Honorarios","ud"],
-  ["Dirección de obra","Honorarios profesionales","Honorarios","ud"],
-  ["Arquitecto técnico","Dirección de ejecución","Honorarios","ud"],
-  ["Licencias e ICIO","Trámites y tributos municipales","Impuestos y licencias","ud"],
-  ["Movimiento de tierras","Excavación y maquinaria","Construcción","m³"],
-  ["Hormigón","Hormigón estructural HA-25","Construcción","m³"],
-  ["Estructura","Pilares, vigas y forjados","Construcción","m²"],
-  ["Fachadas y cerramientos","Paredes y aislamiento","Construcción","m²"],
-  ["Cubierta y tejado","Estructura e impermeabilización","Construcción","m²"],
-  ["Tabiquería interior","Distribución de habitaciones","Construcción","m²"],
-  ["Ventanas","Carpintería exterior y cristales","Carpintería","ud"],
-  ["Puertas y armarios","Carpintería interior","Carpintería","ud"],
-  ["Instalación eléctrica","Cableado y mecanismos","Instalaciones","ud"],
-  ["Fontanería","Tuberías y saneamiento","Instalaciones","ud"],
-  ["Climatización","Calefacción y refrigeración","Instalaciones","ud"],
-  ["Baños","Sanitarios, grifería y muebles","Acabados","ud"],
-  ["Cocina","Muebles y electrodomésticos","Acabados","ud"],
-  ["Pavimentos y alicatados","Suelos y revestimientos","Acabados","m²"],
-  ["Pintura y acabados","Pintura y remates","Acabados","m²"],
-  ["Iluminación","Luminarias e instalación","Instalaciones","ud"],
-  ["Mobiliario","Muebles y equipamiento","Equipamiento","ud"],
-  ["Exterior y jardín","Terraza, vallado y jardín","Exterior","ud"],
-  ["Seguridad y residuos","Prevención y gestión de residuos","Otros","ud"],
-  ["Certificado final de obra","Pruebas y documentación","Legalización","ud"],
-  ["Legalización","Declaración de obra nueva y registro","Legalización","ud"],
-  ["Imprevistos","Reserva para gastos inesperados","Otros","ud"]
+const phases = [
+["Terreno y adquisición",[
+["Compra del terreno","Precio de adquisición de la parcela","Terreno","ud",1,0],
+["ITP / IVA / AJD del terreno","Impuestos de adquisición, calculados en la pestaña fiscal","Terreno","ud",1,0],
+["Notaría y registro","Escritura, inscripción y trámites","Terreno","ud",1,0],
+["Estudio registral y catastral","Comprobación de titularidad, cargas y datos","Terreno","ud",1,0]
+]],
+["Estudios previos",[
+["Estudio topográfico","Levantamiento y medición de la parcela","Estudios","ud",1,0],
+["Estudio geotécnico","Estudio del terreno y cimentación","Estudios","ud",1,0],
+["Otros estudios","Estudios adicionales si son necesarios","Estudios","ud",1,0]
+]],
+["Proyecto y profesionales",[
+["Proyecto básico","Honorarios de arquitecto","Profesionales","ud",1,0],
+["Proyecto de ejecución","Documentación técnica de ejecución","Profesionales","ud",1,0],
+["Dirección de obra","Dirección facultativa del arquitecto","Profesionales","ud",1,0],
+["Dirección de ejecución","Dirección del arquitecto técnico","Profesionales","ud",1,0],
+["Coordinación de seguridad","Coordinación de seguridad y salud","Profesionales","ud",1,0],
+["Otros técnicos e ingenierías","Estructuras, instalaciones y otros especialistas","Profesionales","ud",1,0]
+]],
+["Licencias y trámites",[
+["Licencia urbanística","Licencia municipal de obras","Licencias","ud",1,0],
+["ICIO","Impuesto sobre construcciones, instalaciones y obras","Licencias","ud",1,0],
+["Tasas municipales","Tasas de tramitación y servicios","Licencias","ud",1,0],
+["Acometidas y suministros","Altas o conexiones de servicios","Licencias","ud",1,0],
+["Seguros y garantías","Seguros y garantías exigibles","Licencias","ud",1,0]
+]],
+["Preparación y movimiento de tierras",[
+["Limpieza y desbroce","Preparación inicial de parcela","Obra","m²",206,0],
+["Excavación","Excavación y movimiento de tierras","Obra","m³",0,0],
+["Transporte de tierras","Carga y retirada de tierras","Obra","m³",0,0],
+["Preparación de obra","Instalaciones provisionales y vallado","Obra","ud",1,0]
+]],
+["Cimentación y estructura",[
+["Hormigón","Hormigón estructural HA-25","Estructura","m³",0,0],
+["Acero corrugado","Acero para armaduras","Estructura","kg",0,0],
+["Encofrado","Encofrado y desencofrado","Estructura","m²",0,0],
+["Cimentación","Zapatas, losa o solución definida en proyecto","Estructura","ud",1,0],
+["Estructura vertical","Pilares, muros y elementos verticales","Estructura","ud",1,0],
+["Forjados","Forjados y elementos horizontales","Estructura","m²",160,0],
+["Escalera","Estructura y formación de escalera","Estructura","ud",1,0]
+]],
+["Envolvente y cubierta",[
+["Fachadas y cerramientos","Cerramiento exterior","Envolvente","m²",0,0],
+["Aislamiento térmico","Aislamiento de fachada","Envolvente","m²",0,0],
+["Impermeabilización","Protección frente al agua","Envolvente","m²",0,0],
+["Cubierta","Formación de cubierta","Envolvente","m²",80,0],
+["Canalones y bajantes","Evacuación de aguas pluviales","Envolvente","ud",1,0]
+]],
+["Distribución interior",[
+["Tabiquería interior","Tabiques y divisiones interiores","Interior","m²",0,0],
+["Enlucidos y yesos","Revestimientos interiores","Interior","m²",0,0],
+["Falsos techos","Techos suspendidos","Interior","m²",0,0],
+["Aislamiento acústico","Aislamiento entre estancias","Interior","m²",0,0]
+]],
+["Carpintería y cerrajería",[
+["Ventanas","Ventanas exteriores y acristalamiento","Carpintería","ud",0,0],
+["Puerta de entrada","Puerta exterior de acceso","Carpintería","ud",1,0],
+["Puertas interiores","Puertas de paso","Carpintería","ud",0,0],
+["Armarios","Armarios empotrados o modulares","Carpintería","ud",0,0],
+["Barandillas y cerrajería","Barandillas y elementos metálicos","Carpintería","ud",1,0]
+]],
+["Instalaciones",[
+["Fontanería","Red de agua fría y caliente","Instalaciones","ud",1,0],
+["Saneamiento","Red de evacuación de aguas","Instalaciones","ud",1,0],
+["Electricidad","Instalación eléctrica completa","Instalaciones","ud",1,0],
+["Iluminación","Puntos de luz y luminarias","Instalaciones","ud",1,0],
+["Telecomunicaciones","Red de telecomunicaciones","Instalaciones","ud",1,0],
+["Climatización","Sistema de calefacción y refrigeración","Instalaciones","ud",1,0],
+["Ventilación","Ventilación y renovación de aire","Instalaciones","ud",1,0],
+["Energía solar","Instalación solar si procede","Instalaciones","ud",1,0]
+]],
+["Acabados",[
+["Pavimentos","Suelos interiores","Acabados","m²",160,0],
+["Revestimientos de baños","Alicatados y revestimientos","Acabados","m²",0,0],
+["Pintura","Pintura interior y exterior","Acabados","m²",0,0],
+["Falso techo y remates","Remates de acabado","Acabados","m²",0,0],
+["Rodapiés","Rodapiés y remates de pavimento","Acabados","ml",0,0]
+]],
+["Cocina y baños",[
+["Mobiliario de cocina","Muebles y módulos de cocina","Equipamiento","ud",1,0],
+["Encimera","Encimera de cocina","Equipamiento","ud",1,0],
+["Electrodomésticos","Equipamiento de cocina","Equipamiento","ud",1,0],
+["Sanitarios","Inodoros, lavabos y otros sanitarios","Equipamiento","ud",3,0],
+["Grifería","Grifos y accesorios","Equipamiento","ud",3,0],
+["Platos de ducha y bañeras","Equipamiento de baños","Equipamiento","ud",3,0],
+["Mamparas y accesorios","Mamparas y accesorios de baño","Equipamiento","ud",3,0]
+]],
+["Exterior y parcela",[
+["Pavimentos exteriores","Accesos y pavimentos de parcela","Exterior","m²",0,0],
+["Terraza","Acabado de terraza","Exterior","m²",0,0],
+["Jardín y tierra vegetal","Preparación y ajardinamiento","Exterior","m²",0,0],
+["Vallado y cerramiento","Cierre de parcela","Exterior","ml",0,0],
+["Puerta exterior","Acceso de vehículos o peatones","Exterior","ud",1,0],
+["Aparcamiento exterior","Preparación de zona de aparcamiento","Exterior","m²",0,0]
+]],
+["Medios auxiliares y gestión",[
+["Mano de obra","Trabajos de ejecución no incluidos en otras partidas","Obra","ud",1,0],
+["Maquinaria y medios auxiliares","Alquiler de maquinaria y equipos","Obra","ud",1,0],
+["Transporte de materiales","Transporte y descarga","Obra","ud",1,0],
+["Gestión de residuos","Separación, retirada y gestión","Obra","ud",1,0],
+["Seguridad y salud","Medidas y protecciones de obra","Obra","ud",1,0],
+["Control de calidad","Ensayos y controles","Obra","ud",1,0],
+["Limpieza final","Limpieza al terminar la obra","Obra","ud",1,0]
+]],
+["Final de obra y legalización",[
+["Certificado final de obra","Certificados técnicos finales","Finalización","ud",1,0],
+["Primera ocupación","Trámite municipal correspondiente","Finalización","ud",1,0],
+["Libro del edificio","Documentación final del edificio","Finalización","ud",1,0],
+["Declaración de obra nueva","Escritura y registro de obra nueva","Finalización","ud",1,0],
+["Altas definitivas","Contratación definitiva de suministros","Finalización","ud",1,0]
+]]
 ];
 
-const STORAGE_KEY = "kalkula_project_v1";
-
-let nextId = 1;
-
-let items = initialItems.map(x => ({
-  id:nextId++,
-  name:x[0],
-  desc:x[1],
-  category:x[2],
-  unit:x[3],
-  quantity:1,
-  price:0
-}));
-
-const euro = n => new Intl.NumberFormat("es-ES",{
-  style:"currency",
-  currency:"EUR"
-}).format(n);
-
-const number = n => new Intl.NumberFormat("es-ES",{
-  maximumFractionDigits:2
-}).format(n);
-
-const list = document.getElementById("costList");
-
-const categories = [
-  "Terreno","Estudios","Honorarios","Impuestos y licencias",
-  "Construcción","Carpintería","Instalaciones","Acabados",
-  "Equipamiento","Exterior","Legalización","Otros"
+let items=[],nextId=1,rooms=[
+{name:"Salón-comedor-cocina",area:35},
+{name:"Dormitorio principal",area:15},
+{name:"Dormitorio 2",area:10},
+{name:"Dormitorio 3",area:10},
+{name:"Baño 1",area:5},
+{name:"Baño 2",area:4},
+{name:"Baño 3",area:4},
+{name:"Distribuidor y escaleras",area:12}
 ];
-
-const units = ["ud","m²","m³","ml","kg","h","mes","lote"];
-
-function saveProject() {
-  const project = {
-    items,
-    nextId,
-    location:document.getElementById("location").value,
-    area:document.getElementById("area").value,
-    floors:document.getElementById("floors").value,
-    quality:document.getElementById("quality").value
-  };
-
-  try {
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(project));
-    document.getElementById("saveStatus").textContent =
-      "Presupuesto guardado automáticamente en este navegador.";
-  } catch(error) {
-    document.getElementById("saveStatus").textContent =
-      "No se pudo guardar el presupuesto en este navegador.";
-  }
+const catalog={
+"Hormigón":[
+{name:"Ayuntamiento de Lleida",spec:"HA-25/B/20/I",price:91.30,unit:"m³",type:"Referencia pública",date:"25/04/2025",url:"https://seu.paeria.cat/documentPublic/download/45853",conditions:"Referencia municipal; no es oferta comercial. Confirmar suministro y condiciones."},
+{name:"Banco CERP",spec:"HA-25/B/20/XC1",price:97.10,unit:"m³",type:"Base de precios",date:"Consulta 30/10/2026",url:"https://items.cerp.es/capitulos/precios-basicos--cimentaciones-y-estructuras/hormigones",conditions:"Confirmar transporte, bombeo e impuestos."},
+{name:"ACAE",spec:"HA-25/P/20/X0 o XC1",price:78,unit:"m³",type:"Referencia de catálogo",date:"Consulta 30/10/2026",url:"https://acae.es",conditions:"No es presupuesto de proveedor. Verificar especificación y condiciones."}
+]};
+const money=n=>new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(Number(n)||0);
+const val=id=>Number(document.getElementById(id)?.value)||0;
+const safe=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function initItems(){
+ items=[];nextId=1;
+ phases.forEach(([phase,rows])=>rows.forEach(r=>items.push({id:nextId++,phase,name:r[0],desc:r[1],category:r[2],unit:r[3],quantity:r[4],price:r[5]})));
 }
-
-function loadProject() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if(!saved) return;
-
-    const project = JSON.parse(saved);
-
-    if(Array.isArray(project.items)) {
-  items = project.items;
-
-  items.forEach(item => {
-    if(item.name === "Cimentación") {
-      item.name = "Hormigón";
-      item.desc = "Hormigón estructural HA-25";
-      item.unit = "m³";
-    }
-  });
+function phaseNames(){return [...new Set(items.map(x=>x.phase))]}
+function renderBudget(){
+ const root=document.getElementById("budgetList");root.innerHTML="";
+ phaseNames().forEach(phase=>{
+  const wrap=document.createElement("div");wrap.className="phase";
+  const head=document.createElement("div");head.className="phasehead";
+  const subtotal=items.filter(x=>x.phase===phase).reduce((s,x)=>s+x.quantity*x.price,0);
+  head.innerHTML=`<strong>${safe(phase)}</strong><span>${money(subtotal)}</span>`;
+  const add=document.createElement("button");add.textContent="+ Añadir a esta fase";add.onclick=()=>addItem(phase);head.append(add);
+  const body=document.createElement("div");body.className="phasebody";
+  items.filter(x=>x.phase===phase).forEach(item=>body.appendChild(makeItem(item)));
+  wrap.append(head,body);root.append(wrap);
+ });
+ updateAll();
 }
-
-    if(Number.isInteger(project.nextId)) {
-      nextId = project.nextId;
-    }
-
-    document.getElementById("location").value = project.location ?? "Lleida";
-    document.getElementById("area").value = project.area ?? 160;
-    document.getElementById("floors").value = project.floors ?? "2";
-    document.getElementById("quality").value = project.quality ?? "Media";
-
-  } catch(error) {
-    console.error("No se pudo recuperar el proyecto",error);
-  }
+function makeItem(item){
+ const box=document.createElement("div");box.className="item";
+ box.innerHTML=`<div class="itemtop"><strong>PARTIDA ${item.id}</strong><span class="badge">${safe(item.category)}</span></div>
+ <div class="itemgrid">
+ <div class="field"><label>Nombre</label><input data-k="name" value="${safe(item.name)}"></div>
+ <div class="field"><label>Categoría</label><input data-k="category" value="${safe(item.category)}"></div>
+ <div class="field"><label>Cantidad</label><input data-k="quantity" type="number" min="0" step="any" value="${item.quantity}"></div>
+ <div class="field"><label>Unidad</label><select data-k="unit">${["ud","m²","m³","ml","kg","t","h","mes","lote"].map(u=>`<option ${u===item.unit?"selected":""}>${u}</option>`).join("")}</select></div>
+ <div class="field"><label>Precio unitario (€)</label><input data-k="price" type="number" min="0" step="any" value="${item.price}"></div>
+ <div class="field"><label>Fase</label><select data-k="phase">${phaseNames().map(p=>`<option ${p===item.phase?"selected":""}>${safe(p)}</option>`).join("")}</select></div>
+ </div>
+ <div class="field" style="margin-top:9px"><label>Descripción / especificación</label><input data-k="desc" value="${safe(item.desc)}"></div>
+ <div class="itembottom"><span class="muted">Cantidad × precio unitario</span><strong class="lineTotal">${money(item.quantity*item.price)}</strong><div class="actions"><button class="compare">Comparar precios</button><button class="danger delete">Eliminar</button></div></div>
+ <div class="options"></div>`;
+ box.querySelectorAll("[data-k]").forEach(el=>el.addEventListener("change",()=>{
+  const k=el.dataset.k;item[k]=["quantity","price"].includes(k)?Math.max(0,Number(el.value)||0):el.value;
+  renderBudget();saveProject();
+ }));
+ box.querySelector(".delete").onclick=()=>{items=items.filter(x=>x.id!==item.id);renderBudget();saveProject()};
+ const options=box.querySelector(".options");
+ box.querySelector(".compare").onclick=()=>{
+  options.classList.toggle("open");
+  if(!options.dataset.loaded){showOptions(item,options);options.dataset.loaded="1"}
+ };
+ return box;
 }
-const priceCatalog = {
-  "Hormigón": [
-    {
-      name: "Ayuntamiento de Lleida",
-      specification: "HA-25/B/20/I",
-      price: 91.30,
-      unit: "m³",
-      type: "Referencia de precios pública",
-      date: "25/04/2025",
-      conditions: "Precio de material en una justificación de precios municipal. No equivale a una oferta comercial.",
-      url: "https://seu.paeria.cat/documentPublic/download/45853"
-    },
-    {
-      name: "Banco de precios CERP",
-      specification: "HA-25/B/20/XC1",
-      price: 97.10,
-      unit: "m³",
-      type: "Referencia de banco de precios",
-      date: "Consulta: 30/10/2026",
-      conditions: "Precio de referencia publicado. Confirmar transporte, bombeo e impuestos.",
-      url: "https://items.cerp.es/capitulos/precios-basicos--cimentaciones-y-estructuras/hormigones"
-    }
-  ]
-};
-function render() {
-  list.innerHTML = "";
-
-  if(items.length === 0) {
-    list.innerHTML =
-      '<div class="empty">Todavía no hay partidas. Pulsa «Añadir partida» para empezar.</div>';
-  }
-
-  items.forEach(item => {
-    const row = document.createElement("div");
-    row.className = "cost-row";
-
-    const top = document.createElement("div");
-    top.className = "row-top";
-
-    const numberLabel = document.createElement("span");
-    numberLabel.className = "row-number";
-    numberLabel.textContent = "PARTIDA " + item.id;
-
-    const total = document.createElement("strong");
-    total.className = "row-total";
-    total.textContent = euro(item.quantity * item.price);
-
-    top.append(numberLabel,total);
-
-    const fields = document.createElement("div");
-    fields.className = "row-fields";
-
-    function createField(labelText,value,type,options,className,callback) {
-      const wrapper = document.createElement("div");
-
-      if(className) wrapper.className = className;
-
-      const label = document.createElement("label");
-      label.textContent = labelText;
-
-      let control;
-
-      if(type === "select") {
-        control = document.createElement("select");
-
-        options.forEach(option => {
-          const opt = document.createElement("option");
-          opt.value = option;
-          opt.textContent = option;
-          control.appendChild(opt);
-        });
-
-        control.value = value;
-
-      } else {
-        control = document.createElement("input");
-        control.type = type;
-        control.value = value;
-
-        if(type === "number") {
-          control.min = "0";
-          control.step = "any";
-        }
-      }
-
-      control.addEventListener("input",() => callback(control.value));
-      control.addEventListener("change",() => callback(control.value));
-
-      wrapper.append(label,control);
-      return wrapper;
-    }
-
-    fields.append(
-      createField("Nombre de la partida",item.name,"text",null,"name-field",v=>{
-        item.name = v;
-        saveProject();
-      }),
-
-      createField("Categoría",item.category,"select",categories,"",v=>{
-        item.category = v;
-        updateSummary();
-      }),
-
-      createField("Cantidad",item.quantity,"number",null,"",v=>{
-        item.quantity = Math.max(0,Number(v)||0);
-        updateRow();
-      }),
-
-      createField("Unidad",item.unit,"select",units,"",v=>{
-        item.unit = v;
-        saveProject();
-      }),
-
-      createField("Precio por unidad (€)",item.price,"number",null,"",v=>{
-        item.price = Math.max(0,Number(v)||0);
-        updateRow();
-      }),
-
-      createField("Descripción",item.desc,"text",null,"desc-field",v=>{
-        item.desc = v;
-        saveProject();
-      })
-    );
-
-    const bottom = document.createElement("div");
-    bottom.className = "row-bottom";
-
-    const detail = document.createElement("small");
-    detail.textContent = "Coste = cantidad × precio unitario";
-
-    const del = document.createElement("button");
-    del.className = "delete-btn";
-    del.textContent = "Eliminar partida";
-
-    del.addEventListener("click",()=>{
-      items = items.filter(x=>x.id !== item.id);
-      render();
-    });
-
-       // Comparador de precios
-    const catalogKey = item.name.trim();
-
-    const options = priceCatalog[catalogKey];
-
-    if(options && options.length) {
-      const compareButton = document.createElement("button");
-      compareButton.className = "compare-btn";
-      compareButton.textContent = "Comparar precios";
-
-      const priceBox = document.createElement("div");
-      priceBox.className = "price-options";
-
-      compareButton.addEventListener("click",()=>{
-        priceBox.classList.toggle("open");
-      });
-
-      options.forEach(option=>{
-        const optionBox = document.createElement("div");
-        optionBox.className = "price-option";
-
-        const title = document.createElement("strong");
-        title.textContent = option.name;
-
-        const specification = document.createElement("p");
-        specification.textContent =
-          option.specification + " · " +
-          euro(option.price) + "/" + option.unit;
-
-        const type = document.createElement("p");
-        type.textContent = option.type + " · " + option.date;
-
-        const conditions = document.createElement("p");
-        conditions.textContent = option.conditions;
-
-        const source = document.createElement("a");
-        source.href = option.url;
-        source.target = "_blank";
-        source.rel = "noopener noreferrer";
-        source.textContent = "Consultar fuente";
-
-        const selectButton = document.createElement("button");
-        selectButton.className = "select-price";
-        selectButton.textContent = "Utilizar este precio";
-
-        selectButton.addEventListener("click",()=>{
-          if(item.unit !== option.unit) {
-            item.unit = option.unit;
-          }
-
-          item.price = option.price;
-          render();
-        });
-
-        optionBox.append(
-          title,
-          specification,
-          type,
-          conditions,
-          source,
-          document.createElement("br"),
-          selectButton
-        );
-
-        priceBox.appendChild(optionBox);
-      });
-
-      const comparison = document.createElement("div");
-      comparison.append(compareButton,priceBox);
-
-      row.append(top,fields,bottom,comparison);
-    } else {
-      row.append(top,fields,bottom);
-    }
-
-    list.appendChild(row);
-
-    function updateRow() {
-      total.textContent = euro(item.quantity * item.price);
-      updateSummary();
-    }
-  });
-
-  updateSummary();
+function showOptions(item,container){
+ const list=catalog[item.name.trim()];
+ if(!list){container.innerHTML='<p class="note">Todavía no hay referencias verificadas para esta partida. Puedes añadir un presupuesto real manualmente cuando lo recibas.</p>';return}
+ container.innerHTML=list.map((o,i)=>`<div class="option"><strong>${safe(o.name)} · ${money(o.price)}/${safe(o.unit)}</strong>
+ <p>${safe(o.spec)} · ${safe(o.type)} · ${safe(o.date)}</p><p>${safe(o.conditions)}</p>
+ <p><a href="${safe(o.url)}" target="_blank" rel="noopener">Consultar fuente</a></p>
+ <button data-choice="${i}">Utilizar este precio</button></div>`).join("");
+ container.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>{
+  const o=list[Number(b.dataset.choice)];item.price=o.price;item.unit=o.unit;renderBudget();saveProject();
+ });
 }
-
-function updateSummary() {
-  const total = items.reduce((sum,item)=>
-    sum + item.quantity * item.price,0);
-
-  const area = Math.max(0,
-    Number(document.getElementById("area").value)||0
-  );
-
-  const location = document.getElementById("location").value.trim();
-
-  document.getElementById("grandTotal").textContent = euro(total);
-
-  document.getElementById("locationSummary").textContent =
-    location || "Sin indicar";
-
-  document.getElementById("areaSummary").textContent =
-    number(area) + " m²";
-
-  document.getElementById("sqmTotal").textContent = area
-    ? number(total/area) + " €/m²"
-    : "—";
-
-  document.getElementById("countSummary").textContent = items.length;
-
-  const totals = {};
-
-  items.forEach(item=>{
-    totals[item.category] =
-      (totals[item.category]||0) + item.quantity*item.price;
-  });
-
-  const box = document.getElementById("categorySummary");
-  box.innerHTML = "";
-
-  Object.entries(totals).forEach(([category,value])=>{
-    const line = document.createElement("div");
-    line.className = "category-line";
-
-    const name = document.createElement("span");
-    name.textContent = category;
-
-    const amount = document.createElement("strong");
-    amount.textContent = euro(value);
-
-    line.append(name,amount);
-    box.appendChild(line);
-  });
-
-  saveProject();
+function addItem(phase){
+ items.push({id:nextId++,phase:phase||"Otras partidas",name:"Nueva partida",desc:"Añade una descripción",category:"Otros",unit:"ud",quantity:1,price:0});
+ renderBudget();saveProject();
 }
-
-document.getElementById("area").addEventListener("input",updateSummary);
-document.getElementById("location").addEventListener("input",updateSummary);
-document.getElementById("floors").addEventListener("change",saveProject);
-document.getElementById("quality").addEventListener("change",saveProject);
-
-document.getElementById("addBtn").addEventListener("click",()=>{
-  items.push({
-    id:nextId++,
-    name:"Nueva partida",
-    desc:"Descripción de la partida",
-    category:"Otros",
-    unit:"ud",
-    quantity:1,
-    price:0
-  });
-
-  render();
+function resetBudget(){if(confirm("¿Restablecer las partidas? Se perderán las modificaciones actuales.")){initItems();renderBudget();saveProject()}}
+function buildBase(){return items.reduce((s,x)=>s+x.quantity*x.price,0)}
+function taxData(){
+ const land=val("landPrice");
+ const type=document.getElementById("landTaxType").value;
+ const landTax=type==="itp"?land*val("itpRate")/100:type==="vat"?land*val("landVatRate")/100:0;
+ const landAjd=type==="vat"?land*val("landAjdRate")/100:0;
+ const purchase=landTax+landAjd+val("notary")+val("otherPurchase");
+ const base=buildBase();
+ const icioBase=val("icioBase")||base;
+ const icio=icioBase*val("icioRate")/100;
+ const buildVat=base*val("buildVatRate")/100;
+ const ajd=val("newBuildAjdBase")*val("newBuildAjdRate")/100;
+ const professional=items.filter(x=>x.phase==="Proyecto y profesionales").reduce((s,x)=>s+x.quantity*x.price,0);
+ const professionalVat=professional*val("professionalVatRate")/100;
+ return {landTax,landAjd,purchase,icio,buildVat,ajd,professionalVat,base,icioBase};
+}
+function updateAll(){
+ const base=buildBase(),tax=taxData(),area=val("area");
+ const total=base+tax.purchase+tax.icio+tax.buildVat+tax.ajd+tax.professionalVat;
+ document.getElementById("grandTotal").textContent=money(total);
+ document.getElementById("sqmTotal").textContent=area?money(total/area)+"/m²":"—";
+ document.getElementById("areaStat").textContent=area+" m²";
+ document.getElementById("countStat").textContent=items.length;
+ const t=document.getElementById("taxSummary");
+ if(t)t.innerHTML=[
+ ["Impuesto de adquisición",tax.landTax],["AJD adquisición",tax.landAjd],["Notaría y otros",val("notary")+val("otherPurchase")],["ICIO estimado",tax.icio],["IVA estimado de ejecución",tax.buildVat],["IVA estimado de profesionales",tax.professionalVat],["AJD obra nueva",tax.ajd]
+ ].map(x=>`<div class="totalrow"><span>${x[0]}</span><strong>${money(x[1])}</strong></div>`).join("")+`<div class="totalrow"><strong>Total de estos conceptos</strong><strong>${money(tax.purchase+tax.icio+tax.buildVat+tax.professionalVat+tax.ajd)}</strong></div><p class="note">Los impuestos se calculan sobre bases simplificadas introducidas por el usuario. Revisa las bases y tipos legales antes de utilizar el resultado.</p>`;
+ renderSummary(base,tax,total);
+}
+function renderSummary(base,tax,total){
+ const content=document.getElementById("summaryContent");if(!content)return;
+ const rows=[["Presupuesto de partidas",base],["Compra e impuestos del terreno",tax.purchase],["ICIO",tax.icio],["IVA estimado de ejecución",tax.buildVat],["IVA estimado de profesionales",tax.professionalVat],["AJD obra nueva",tax.ajd]];
+ content.innerHTML=rows.map(x=>`<div class="totalrow"><span>${x[0]}</span><strong>${money(x[1])}</strong></div>`).join("")+`<div class="totalrow"><strong>TOTAL ESTIMADO</strong><span class="bigtotal">${money(total)}</span></div><p class="note">Coste por metro cuadrado: ${val("area")?money(total/val("area"))+"/m²":"No indicado"}</p>`;
+ const sums={};items.forEach(x=>sums[x.phase]=(sums[x.phase]||0)+x.quantity*x.price);
+ document.getElementById("categoryChart").innerHTML=Object.entries(sums).map(([k,v])=>`<div><div class="totalrow"><span>${safe(k)}</span><strong>${money(v)}</strong></div><div class="bar"><span style="width:${base?Math.min(100,v/base*100):0}%"></span></div></div>`).join("");
+}
+function renderScenarios(){
+ const base=buildBase()+taxData().purchase+taxData().icio+taxData().buildVat+taxData().professionalVat+taxData().ajd;
+ const changes=[["Económico",val("lowScenario")],["Actual",val("midScenario")],["Superior",val("highScenario")]];
+ document.getElementById("scenarioResults").innerHTML=changes.map(([n,p])=>`<div class="totalrow"><span>${n} (${p}%)</span><strong>${money(base*(1+p/100))}</strong></div>`).join("")+"<p class='note'>Los porcentajes se aplican al total estimado. No representan ofertas reales ni sustituyen una medición.</p>";
+}
+function addRoom(){rooms.push({name:"Nueva estancia",area:0});renderRooms();saveProject()}
+function renderRooms(){
+ const root=document.getElementById("rooms");root.innerHTML="";
+ rooms.forEach((r,i)=>{
+  const row=document.createElement("div");row.className="item";
+  row.innerHTML=`<div class="itemgrid"><div class="field"><label>Estancia</label><input value="${safe(r.name)}"></div><div class="field"><label>Superficie (m²)</label><input type="number" min="0" step=".1" value="${r.area}"></div><div><label>&nbsp;</label><button class="danger">Eliminar</button></div></div>`;
+  const inputs=row.querySelectorAll("input");inputs[0].onchange=()=>{r.name=inputs[0].value;saveProject()};
+  inputs[1].onchange=()=>{r.area=Math.max(0,Number(inputs[1].value)||0);updateRoomTotal();saveProject()};
+  row.querySelector("button").onclick=()=>{rooms.splice(i,1);renderRooms();saveProject()};
+  root.append(row);
+ });updateRoomTotal();
+}
+function updateRoomTotal(){document.getElementById("roomTotal").textContent=rooms.reduce((s,r)=>s+r.area,0).toFixed(1)+" m²"}
+function exportCSV(){
+ const rows=[["Fase","Partida","Descripción","Categoría","Cantidad","Unidad","Precio unitario","Total"],...items.map(x=>[x.phase,x.name,x.desc,x.category,x.quantity,x.unit,x.price,x.quantity*x.price])];
+ const csv=rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(";")).join("\n");
+ download("\uFEFF"+csv,"kalkula-presupuesto.csv","text/csv;charset=utf-8");
+}
+function exportJSON(){download(JSON.stringify(getProject(),null,2),"kalkula-proyecto.json","application/json")}
+function download(content,name,type){const a=document.createElement("a");const u=URL.createObjectURL(new Blob([content],{type}));a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
+function getProject(){
+ const fields={};document.querySelectorAll("#project input,#project select,#taxes input,#taxes select,#scenarios input").forEach(e=>fields[e.id]=e.value);
+ return {version:1,fields,items,rooms,planName:document.getElementById("planFileName").textContent};
+}
+function saveProject(){try{localStorage.setItem("kalkula_project_v2",JSON.stringify(getProject()))}catch(e){}}
+function loadProject(){
+ try{
+  const p=JSON.parse(localStorage.getItem("kalkula_project_v2")||"null");
+  if(p){
+   Object.entries(p.fields||{}).forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.value=v});
+   if(Array.isArray(p.items))items=p.items;
+   if(Array.isArray(p.rooms))rooms=p.rooms;
+   nextId=Math.max(0,...items.map(x=>Number(x.id)||0))+1;
+  }else initItems();
+ }catch(e){initItems()}
+}
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active");document.getElementById(b.dataset.tab).classList.add("active");
+ if(b.dataset.tab==="scenarios")renderScenarios();
 });
-
-document.getElementById("resetBtn").addEventListener("click",()=>{
-  if(!confirm("¿Quieres restablecer todas las partidas y sus importes?")) {
-    return;
-  }
-
-  nextId = 1;
-
-  items = initialItems.map(x=>({
-    id:nextId++,
-    name:x[0],
-    desc:x[1],
-    category:x[2],
-    unit:x[3],
-    quantity:1,
-    price:0
-  }));
-
-  render();
+document.querySelectorAll("#project input,#project select,#taxes input,#taxes select").forEach(e=>e.addEventListener("input",()=>{updateAll();saveProject()}));
+document.getElementById("planFile").addEventListener("change",e=>{
+ const file=e.target.files[0];if(!file)return;
+ document.getElementById("planFileName").textContent="Archivo seleccionado: "+file.name;
+ const preview=document.getElementById("planPreview");
+ if(file.type.startsWith("image/")){preview.src=URL.createObjectURL(file);preview.style.display="block"}
+ else{preview.style.display="none";document.getElementById("planFileName").textContent+=" (PDF seleccionado; vista previa no disponible en esta versión)."}
 });
-
-document.getElementById("exportBtn").addEventListener("click",()=>{
-  const rows = [
-    ["Partida","Descripción","Categoría","Cantidad","Unidad","Precio unitario (€)","Total (€)"],
-    ...items.map(x=>[
-      x.name,
-      x.desc,
-      x.category,
-      x.quantity,
-      x.unit,
-      x.price,
-      x.quantity*x.price
-    ])
-  ];
-
-  const csv = rows.map(row=>
-    row.map(value=>'"'+String(value).replace(/"/g,'""')+'"').join(";")
-  ).join("\n");
-
-  const blob = new Blob(["\uFEFF"+csv],{
-    type:"text/csv;charset=utf-8;"
-  });
-
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-
-  link.href = url;
-  link.download = "presupuesto-kalkula.csv";
-  link.click();
-
-  URL.revokeObjectURL(url);
-});
-
-loadProject();
-render();
+loadProject();renderBudget();renderRooms();updateAll();
 </script>
-
 </body>
 </html>
